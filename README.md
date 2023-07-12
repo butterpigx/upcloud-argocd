@@ -31,7 +31,7 @@ kubectl expose deployment -n argocd argocd-server \
 --type=LoadBalancer
 ```
 
-Optional: you can patch the Cluster IP that already exists instead of exposing a new service:
+Optional: If you did the above you can skip this but you can also patch the Cluster IP that already exists instead of exposing a new LB service:
 ```
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
