@@ -10,7 +10,7 @@ Create the namespace:
 kubectl create namespace argocd
 ```
 
-Run the manifests Make sure to change the version number below.:
+Run the manifests. Make sure to change the version number below.:
 ```
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/vX.X.X-X/manifests/install.yaml
 ```
