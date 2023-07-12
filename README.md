@@ -1,12 +1,13 @@
 # upcloud-argocd
-How to deploy Argo CD on UpCloud's Kubernete Service
 
-This assumes you are using UpCloud's managed Kubernetes service and have it setup & running.
+How to deploy Argo CD on UpCloud's Kubernetes Service.
+
+This assumes you are using UpCloud's managed Kubernetes service and have it set up & running. (Paid!)
 
 Argo CD can be found here: https://github.com/argoproj/argo-cd
 
 Create the namespace:
-```
+```bash
 kubectl create namespace argocd
 ```
 
@@ -22,18 +23,18 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 This will make Argo CD accessible on http://localhost:8080.
 
-To expose the deployment using UpCloud’s Load Balancer (Paid!):
+Patch the Cluster IP that already exists instead of exposing a new LB service (Paid!):
+```
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+```
+
+**Optional:** If you don't want to patch the existing service you can expose the deployment using a new service for UpCloud’s Load Balancer (Paid!):
 ```
 kubectl expose deployment -n argocd argocd-server \
 --name=expose-argocd-server \
 --port=443 \
 --target-port=8080 \
 --type=LoadBalancer
-```
-
-Optional: If you did the above you can skip this but you can also patch the Cluster IP that already exists instead of exposing a new LB service:
-```
-kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
 
 Disable Argo CD TLS:
